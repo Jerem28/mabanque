@@ -62,4 +62,24 @@ public abstract class Compte implements Serializable
   {
     this.solde = solde;
   }
+
+  public Client getClient()
+  {
+    return client;
+  }
+
+  public void setClient(Client client)
+  {
+    this.client = client;
+  }
+
+  public Collection<Operation> getOperations()
+  {
+    return operations;
+  }
+
+  public void setOperations(Collection<Operation> operations)
+  {
+    this.operations = operations;
+  }
 }

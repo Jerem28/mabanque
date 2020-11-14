@@ -5,6 +5,7 @@ import org.jra.mabanque.dao.OperationRepository;
 import org.jra.mabanque.entities.*;
 import org.jra.mabanque.exceptions.CompteIntrouvableException;
 import org.jra.mabanque.exceptions.SoldeTotalInsuffisant;
+import org.jra.mabanque.exceptions.VirementEntreLeMemeCompteImpossible;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -55,8 +56,14 @@ public class BanqueService implements IBanqueService
     if(cp instanceof CompteCourant){
       facilitesCaisse = ((CompteCourant) cp).getDecouvert();
       if(cp.getSolde() + facilitesCaisse < montant) {
-        throw new SoldeTotalInsuffisant("Solde total insuffisant pour le compte [" + codeCompte + "]");
+        throw new SoldeTotalInsuffisant("Solde total insuffisant");
       } else {
+        cp.setSolde(cp.getSolde() - montant);
+        compteRepository.save(cp);
+      }
+    } else if(cp instanceof CompteEpargne){
+      if(cp.getSolde() < montant) throw new SoldeTotalInsuffisant("Solde total insuffisant");
+      else {
         cp.setSolde(cp.getSolde() - montant);
         compteRepository.save(cp);
       }
@@ -65,10 +72,14 @@ public class BanqueService implements IBanqueService
   }
 
   @Override
-  public void virement(String codeCompteDepuis, String codeCompteVers, double montant) throws CompteIntrouvableException, SoldeTotalInsuffisant
+  public void virement(String codeCompteDepuis, String codeCompteVers, double montant)
+          throws CompteIntrouvableException, SoldeTotalInsuffisant, VirementEntreLeMemeCompteImpossible
   {
-    retirer(codeCompteDepuis, montant);
-    verser(codeCompteVers, montant);
+    if(codeCompteDepuis.equals(codeCompteVers)) throw new VirementEntreLeMemeCompteImpossible("Impossible de virer de l'argent de ce compte vers ce meme compte");
+    else {
+      retirer(codeCompteDepuis, montant);
+      verser(codeCompteVers, montant);
+    }
   }
 
   @Override
