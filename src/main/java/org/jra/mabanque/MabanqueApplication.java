@@ -36,6 +36,22 @@ public class MabanqueApplication implements CommandLineRunner
   @Override
   public void run(String... args) throws Exception
   {
+    Client c1 = clientRepository.save(new Client("Dany", "fake@gmail.com"));
+    Client c2 = clientRepository.save(new Client("Edouard", "fake@gmail.com"));
 
+    Compte cp1 = compteRepository.save(new CompteCourant("c1", new Date(), 90000, c1, 6000));
+    Compte cp2 = compteRepository.save(new CompteCourant("c2", new Date(), 90000, c2, 6000));
+
+    operationRepository.save(new Versement(new Date(), 9000, cp1));
+    operationRepository.save(new Versement(new Date(), 6000, cp1));
+    operationRepository.save(new Versement(new Date(), 2300, cp1));
+    operationRepository.save(new Retrait(new Date(), 4000, cp1));
+
+    operationRepository.save(new Versement(new Date(), 12000, cp2));
+    operationRepository.save(new Versement(new Date(), 24000, cp2));
+    operationRepository.save(new Versement(new Date(), 100, cp2));
+    operationRepository.save(new Retrait(new Date(), 500, cp2));
+
+    banqueService.verser("c1", 11);
   }
 }
