@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "TYPE_OP", discriminatorType = DiscriminatorType.STRING, length = 1)
+@DiscriminatorColumn(name = "type_op", discriminatorType = DiscriminatorType.STRING, length = 1)
 public abstract class Operation implements Serializable
 {
   @Id @GeneratedValue
@@ -14,7 +14,7 @@ public abstract class Operation implements Serializable
   private Date dateOperation;
   private double montant;
   @ManyToOne
-  @JoinColumn(name="CODE_CPTE")
+  @JoinColumn(name="code_cpte")
   private Compte compte;
 
   public Operation()

@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="TYPE_CPTE", discriminatorType = DiscriminatorType.STRING, length = 2)
+@DiscriminatorColumn(name="type_cpte", discriminatorType = DiscriminatorType.STRING, length = 2)
 public abstract class Compte implements Serializable
 {
   @Id
@@ -15,7 +15,7 @@ public abstract class Compte implements Serializable
   private Date dateCreation;
   private double solde;
   @ManyToOne
-  @JoinColumn(name="CODE_CLI")
+  @JoinColumn(name="code_cli")
   private Client client;
   @OneToMany(mappedBy = "compte", fetch = FetchType.LAZY)
   private Collection<Operation> operations;
