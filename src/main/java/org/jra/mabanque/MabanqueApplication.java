@@ -36,6 +36,7 @@ public class MabanqueApplication implements CommandLineRunner
   @Override
   public void run(String... args) throws Exception
   {
+    /*
     Client c1 = clientRepository.save(new Client("Dany", "fake@gmail.com"));
     Client c2 = clientRepository.save(new Client("Edouard", "fake@gmail.com"));
 
@@ -53,5 +54,7 @@ public class MabanqueApplication implements CommandLineRunner
     operationRepository.save(new Retrait(new Date(), 500, cp2));
 
     banqueService.verser("c1", 11);
+    */
+     
   }
 }
