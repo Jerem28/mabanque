@@ -1,5 +1,6 @@
 package org.jra.mabanque.web;
 
+import org.jra.mabanque.entities.Client;
 import org.jra.mabanque.entities.Compte;
 import org.jra.mabanque.entities.Operation;
 import org.jra.mabanque.services.IBanqueService;
@@ -10,13 +11,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.List;
+
 @Controller
 public class BanqueController
 {
   @Autowired
   private IBanqueService banqueService;
 
-  @RequestMapping("/")
+  @RequestMapping(value = {"/", "/comptes"})
   public String index(){
     return "comptes";
   }
@@ -33,6 +36,18 @@ public class BanqueController
       model.addAttribute("exception", e);
     }
     return "comptes";
+  }
+
+  @RequestMapping(value={"consulterClient","/clients"})
+  public String consulterClient(Model model, String nomClient){
+    model.addAttribute("nomClient", nomClient);
+    try{
+      List<Client> clients = banqueService.consulterClient(nomClient);
+      model.addAttribute("clients", clients);
+    } catch (Exception e){
+      model.addAttribute("exception", e);
+    }
+    return "clients";
   }
 
   @RequestMapping(value="/enregistrerOperations", method= RequestMethod.POST)

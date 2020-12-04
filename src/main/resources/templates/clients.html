@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Ma Banque</title>
+</head>
+<body>
+    <div layout:fragment="content" class="container d-flex">
+        <div class="col-md-6">
+            <div class="card mb-5">
+                <div class="card-header">Consultation d'un client</div>
+                <div class="card-body">
+                    <form th:action="@{/consulterClient}" method="get">
+                        <div>
+                            <label>Nom du client: </label>
+                            <input th:value="${nomClient}" type="text" id="nomClient" name="nomClient">
+                            <button type="submit" class="btn btn-primary">Ok</button>
+                        </div>
+                    </form>
+                    <div class="text-danger" th:if="${exception}" th:text="${exception.message}"></div>
+                </div>
+            </div>
+
+            <div class="card mb-5" th:if="${clients}">
+                <div class="card-header">Informations sur le client</div>
+                <div class="card-body">
+                    <div th:each="client: ${clients}">
+                        <div>
+                            <label>Code client: </label>
+                            <label th:text="${client.code}"></label>
+                        </div>
+                        <div>
+                            <label>Nom client: </label>
+                            <label th:text="${client.nom}"></label>
+                        </div>
+                        <div>
+                            <label>Adresse email: </label>
+                            <label th:text="${client.email}"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+</html>

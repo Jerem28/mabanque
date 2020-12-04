@@ -1,8 +1,10 @@
 package org.jra.mabanque.services;
 
+import org.jra.mabanque.dao.ClientRepository;
 import org.jra.mabanque.dao.CompteRepository;
 import org.jra.mabanque.dao.OperationRepository;
 import org.jra.mabanque.entities.*;
+import org.jra.mabanque.exceptions.ClientIntrouvableException;
 import org.jra.mabanque.exceptions.CompteIntrouvableException;
 import org.jra.mabanque.exceptions.SoldeTotalInsuffisant;
 import org.jra.mabanque.exceptions.VirementEntreLeMemeCompteImpossible;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -23,6 +26,9 @@ public class BanqueService implements IBanqueService
 
   @Autowired
   private OperationRepository operationRepository;
+
+  @Autowired
+  private ClientRepository clientRepository;
 
   @Override
   public Compte consulterCompte(String codeCompte) throws CompteIntrouvableException
@@ -86,5 +92,12 @@ public class BanqueService implements IBanqueService
   public Page<Operation> listerOperations(String codeCompte, int page, int size)
   {
     return operationRepository.listerOperations(codeCompte, PageRequest.of(page, size));
+  }
+
+  @Override
+  public List<Client> consulterClient(String nomClient) throws ClientIntrouvableException {
+    List<Client> clients = this.clientRepository.findByNom(nomClient);
+    if(clients.isEmpty()) throw new ClientIntrouvableException("Aucun client ne porte le nom " + nomClient);
+    else return clients;
   }
 }
