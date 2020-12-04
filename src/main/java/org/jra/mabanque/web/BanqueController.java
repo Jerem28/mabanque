@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -38,7 +40,12 @@ public class BanqueController
     return "comptes";
   }
 
-  @RequestMapping(value={"consulterClient","/clients"})
+  @RequestMapping("/clients")
+  public String indexClient(){
+    return "clients";
+  }
+
+  @RequestMapping("consulterClient")
   public String consulterClient(Model model, String nomClient){
     model.addAttribute("nomClient", nomClient);
     try{
@@ -70,4 +77,17 @@ public class BanqueController
     }
     return "redirect:/consulterCompte?codeCompte=" + codeCompte;
   }
+
+  @RequestMapping(value="/enregistrerClient", method = RequestMethod.POST)
+  public String enregistrerClient(@Valid @ModelAttribute("client") Client client,
+                                  BindingResult bindingResult){
+      banqueService.creerClient(client);
+      if(bindingResult.hasErrors()){
+        return "error";
+      } else {
+        System.out.println(client.getEmail());
+        return "redirect:/consulterClient?nomClient=" + client.getNom();
+      }
+  }
+
 }

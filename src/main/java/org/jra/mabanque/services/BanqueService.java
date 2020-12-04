@@ -100,4 +100,10 @@ public class BanqueService implements IBanqueService
     if(clients.isEmpty()) throw new ClientIntrouvableException("Aucun client ne porte le nom " + nomClient);
     else return clients;
   }
+
+  @Override
+  public Long creerClient(Client nouveauClient){
+    this.clientRepository.save(nouveauClient);
+    return nouveauClient.getCode();
+  }
 }

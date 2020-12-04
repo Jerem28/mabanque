@@ -1,6 +1,7 @@
 package org.jra.mabanque.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -9,7 +10,9 @@ public class Client implements Serializable
 {
   @Id @GeneratedValue
   private Long code;
+  @NotNull
   private String nom;
+  @NotNull
   private String email;
   @OneToMany(mappedBy="client", fetch= FetchType.LAZY)
   private Collection<Compte> comptes;

@@ -19,4 +19,5 @@ public interface IBanqueService
   void virement(String codeCompteDepuis, String codeCompteVers, double montant) throws CompteIntrouvableException, SoldeTotalInsuffisant, VirementEntreLeMemeCompteImpossible;
   Page<Operation> listerOperations(String codeCompte, int page, int size);
   List<Client> consulterClient(String codeClient) throws ClientIntrouvableException;
+  Long creerClient(Client client);
 }

@@ -33,17 +33,37 @@
                             <label th:text="${client.code}"></label>
                         </div>
                         <div>
-                            <label>Nom client: </label>
+                            <label>Nom du client: </label>
                             <label th:text="${client.nom}"></label>
                         </div>
                         <div>
                             <label>Adresse email: </label>
                             <label th:text="${client.email}"></label>
                         </div>
+                        <hr/>
                     </div>
                 </div>
             </div>
 
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-5">
+                <div class="card-header">Créer un client</div>
+                <div class="card-body">
+                    <form th:action="@{enregistrerClient}" method="post">
+                        <div>
+                            <label>Nom du client: </label>
+                            <input type="text" name="nom" required>
+                        </div>
+                        <div>
+                            <label>Email du client</label>
+                            <input type="email" name="email" required>
+                        </div>
+                        <button type="submit" class="mt-2 btn btn-primary">Enregistrer</button>
+                    </form>
+                </div>
+            </div>
         </div>
 
     </div>
